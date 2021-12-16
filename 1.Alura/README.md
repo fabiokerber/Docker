@@ -4,7 +4,7 @@
 <br />
 
 **Anotações**
-    * Docker Hub / Docker Store é o repositório oficial de imagens de containers.
+    *Docker Hub / Docker Store é o repositório oficial de imagens de containers.*
 <br />
 
 **Início**
