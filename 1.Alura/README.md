@@ -49,3 +49,54 @@
 > docker stop $(docker ps -q) (para todos os containers listados com o ps -q)
 ```
 <br />
+
+**Salvando dados com volumes**
+```
+> docker run -v "/var/www" ubuntu (mapeia a pasta /var/lib... para /var/www dentro do container)
+> docker inspect <ID>
+    Mounts...
+> docker run -it -v "C:\Temp:/var/www" ubuntu (mapeia a pasta C:\Temp para /var/www dentro do container)
+docker run -p 8080:3000 -v "C:\Temp:/var/www" -w "/var/www" node npm start ("inicia" o container na pasta /var/www e executa o comando "node npm start", logo apos a criação do container)
+> docker run -p 8080:3000 -v "$(pwd):/var/www" -w "/var/www" node npm start
+```
+<br />
+
+**Criando um Dockerfile e "buildando"**
+```
+Criar 01.dockerfile
+---
+FROM node:latest (monta imagem a partir de uma outra imagem fonte)
+MAINTAINER Fabio Kerber (mantenedor da imagem, quem é responsável pela imagem - depreciado por LABEL)
+COPY . /var/www (copia conteudo pasta local para /var/www)
+RUN npm install (executa comando apos a criação do container)
+WORKDIR /var/www (seta o path padrao para execucao dos comandos abaixo - no exemplo os arquivos estao em /var/www)
+ENTRYPOINT [ "npm", "start" ](quando imagem for startada tera um comando de entrada - funciona conforme acima também)
+EXPOSE 3000 (permite a exposição da porta 3000)
+---
+
+> docker build -f 01.dockerfile -t fabiokerber/node 01.dockerfile (-f indicar arquivo a ser buildado | -t <mantenedor>/<nomeimagem>)
+
+> docker build -f lab.dockerfile -t meu_ubuntu .
+> docker images
+```
+<br />
+
+**Networking**
+```
+Criar 01.dockerfile
+---
+FROM node:latest (monta imagem a partir de uma outra imagem fonte)
+MAINTAINER Fabio Kerber (mantenedor da imagem, quem é responsável pela imagem - depreciado por LABEL)
+COPY . /var/www (copia conteudo pasta local para /var/www)
+RUN npm install (executa comando apos a criação do container)
+WORKDIR /var/www (seta o path padrao para execucao dos comandos abaixo - no exemplo os arquivos estao em /var/www)
+ENTRYPOINT [ "npm", "start" ](quando imagem for startada tera um comando de entrada - funciona conforme acima também)
+EXPOSE 3000 (permite a exposição da porta 3000)
+---
+
+> docker build -f 01.dockerfile -t fabiokerber/node 01.dockerfile (-f indicar arquivo a ser buildado | -t <mantenedor>/<nomeimagem>)
+
+> docker build -f lab.dockerfile -t meu_ubuntu .
+> docker images
+```
+<br />
