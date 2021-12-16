@@ -3,7 +3,7 @@
 ### Docker
 <br />
 
-**Anotações**
+**Anotações**<br>
     *Docker Hub / Docker Store é o repositório oficial de imagens de containers.
 <br />
 
@@ -12,6 +12,6 @@
 ```
 > docker run hello-world
 > docker run ubuntu
-
+> docker ps -a
 ```
 <br />
