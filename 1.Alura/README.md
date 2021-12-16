@@ -5,7 +5,7 @@
 
 **Anotações**<br>
     *Docker Hub / Docker Store é o repositório oficial de imagens de containers.*<br>
-    *Camadas dos containers podem ser "compartilhadas entre si" e as que são baixadas são "read only". Quando altera-se algo é alterado em uma nova camada "read/write".*
+    *Camadas dos containers podem ser "compartilhadas entre si" e as que são baixadas são "read only". Quando altera-se algo é modificado em uma nova camada "read/write".*
 <br />
 
 **Início**
