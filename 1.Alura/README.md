@@ -83,20 +83,6 @@ EXPOSE 3000 (permite a exposição da porta 3000)
 
 **Networking**
 ```
-Criar 01.dockerfile
----
-FROM node:latest (monta imagem a partir de uma outra imagem fonte)
-MAINTAINER Fabio Kerber (mantenedor da imagem, quem é responsável pela imagem - depreciado por LABEL)
-COPY . /var/www (copia conteudo pasta local para /var/www)
-RUN npm install (executa comando apos a criação do container)
-WORKDIR /var/www (seta o path padrao para execucao dos comandos abaixo - no exemplo os arquivos estao em /var/www)
-ENTRYPOINT [ "npm", "start" ](quando imagem for startada tera um comando de entrada - funciona conforme acima também)
-EXPOSE 3000 (permite a exposição da porta 3000)
----
 
-> docker build -f 01.dockerfile -t fabiokerber/node 01.dockerfile (-f indicar arquivo a ser buildado | -t <mantenedor>/<nomeimagem>)
-
-> docker build -f lab.dockerfile -t meu_ubuntu .
-> docker images
 ```
 <br />
