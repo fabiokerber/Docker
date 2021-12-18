@@ -11,6 +11,6 @@
 *Git BASH*
 ```
 $ docker-machine rm vm{0,1,2,3,4,5}
-$ docker-machine create -d virtualbox vm1
+$ docker-machine create -d virtualbox vm1 (se erro reinstalar o VirtualBox)
 ```
 <br />
