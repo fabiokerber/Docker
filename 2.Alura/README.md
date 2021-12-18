@@ -7,7 +7,7 @@
     *Docker machine cria máquinas virtuais com o auxilio do VirtualBox já com o docker instalado.*
 <br />
 
-**Docker Machine**
+**Docker Machine**<br>
 *Git BASH*
 ```
 $ docker-machine rm vm{0,1,2,3,4,5}
@@ -15,7 +15,7 @@ $ docker-machine create -d virtualbox vm1 (se erro reinstalar o VirtualBox)
 ```
 <br />
 
-**Criando cluster de VMs**
+**Criando cluster de VMs**<br>
 *Git BASH*
 ```
 $ docker-machine ssh vm1
@@ -28,7 +28,7 @@ $ docker swarm join-token worker (exibe o comando para adicionar workers)
 ```
 <br />
 
-**Criando workers**
+**Criando workers**<br>
 *Git BASH*
 ```
 $ docker-machine create -d virtualbox vm2
@@ -38,7 +38,7 @@ $ docker-machine create -d virtualbox vm3
 ```
 <br />
 
-**Listando e removendo nós (worker)**
+**Listando e removendo nós (worker)**<br>
 *Git BASH*
 ```
 $ docker-machine ssh vm3
