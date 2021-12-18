@@ -5,6 +5,7 @@
 
 **Anotações**<br>
     *Docker machine cria máquinas virtuais com o auxilio do VirtualBox já com o docker instalado.*
+    *Nunca mais do que 9 ou 10 managers dentro de um cluster.*
 <br />
 
 **Docker Machine**<br>
@@ -84,7 +85,7 @@ $ docker-machine ssh vm1
 ```
 <br />
 
-**Backup do Swarm**<br>
+**Backup do Swarm em caso de DR**<br>
 *Git BASH*
 ```
 $ docker-machine ssh vm1
@@ -93,5 +94,41 @@ $ docker-machine ssh vm1
   $ cp -r /var/lib/docker/swarm backup (faz o backup da pasta swarm que contem todas as configurações e logs do swarm)
   (caso ocorra algum problema com o manager, basta copiar esse conteudo para a pasta swarm novamente)
   (apos a copia, basta subir o swarm novamente adicionando a flag --force-new-cluster)
+```
+<br />
+
+**Criando mais Managers**<br>
+*Git BASH*
+```
+$ docker swarm leave --force (força a saida do node/manager do cluster. executar nas três vms)
+$ docker swarm init --advertise-addr 192.168.99.101 (recria o cluster swarm)
+$ docker swarm join-token manager (exibe o comando para adicionar novos managers ao cluster. executar na vm2 e vm3)
+$ docker-machine create -d virtualbox vm4
+$ docker-machine create -d virtualbox vm5
+$ docker node ls --format "{{.Hostname}} {{.ManagerStatus}}" (visualizar somente as colunas hostname e manager status)
+
+$ docker-machine ssh vm1
+  $ docker swarm join-token worker
+
+$ docker-machine ssh vm4
+$ docker-machine ssh vm5 (join)
+```
+<br />
+
+**Algoritmo de consenso RAFT**<br>
+*Git BASH*
+```
+$ docker swarm leave --force (força a saida do node/manager do cluster. executar nas três vms)
+$ docker swarm init --advertise-addr 192.168.99.101 (recria o cluster swarm)
+$ docker swarm join-token manager (exibe o comando para adicionar novos managers ao cluster. executar na vm2 e vm3)
+$ docker-machine create -d virtualbox vm4
+$ docker-machine create -d virtualbox vm5
+$ docker node ls --format "{{.Hostname}} {{.ManagerStatus}}" (visualizar somente as colunas hostname e manager status)
+
+$ docker-machine ssh vm1
+  $ docker swarm join-token worker
+
+$ docker-machine ssh vm4
+$ docker-machine ssh vm5 (join)
 ```
 <br />
