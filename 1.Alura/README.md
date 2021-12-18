@@ -19,6 +19,7 @@
 > docker run -it ubuntu (sobe o container e já conecta no terminal do mesmo)
 > docker start <ID>
 > docker stop <ID>
+> docker history <ID_IMAGEM>
 ```
 <br />
 

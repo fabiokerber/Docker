@@ -12,7 +12,7 @@ docker volume ls
 ls /var/lib/docker/volumes
     my-vol
 
-3-
+3- (funciona somente no linux)
     --tmpfs /pasta/container (cria uma pasta temporaria armazenada em RAM somente em tempo de execução)
 
 RECOMENDAÇÃO DOCKER (-v "confuso")
