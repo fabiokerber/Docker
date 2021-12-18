@@ -50,7 +50,7 @@ $ docker-machine ssh vm1
 ```
 <br />
 
-**Subindo serviço e Routing Mesh**
+**Subindo serviço e Routing Mesh**<br>
 *Git BASH*
 ```
 $ docker-machine start vm{1,2,3}
@@ -67,7 +67,7 @@ $ docker-machine ssh vm1
 ```
 <br />
 
-**Subindo serviço e Routing Mesh**
+**Subindo serviço e Routing Mesh**<br>
 *Git BASH*
 ```
 $ docker-machine start vm{1,2,3}
@@ -84,12 +84,14 @@ $ docker-machine ssh vm1
 ```
 <br />
 
-**Backup do Swarm**
+**Backup do Swarm**<br>
 *Git BASH*
 ```
 $ docker-machine ssh vm1
   $ sudo su
   $ ls /var/lib/docker/swarm
-  $ cp -r /var/lib/docker/swarm backup (faz o backup da pasta swarm que contem todas as configurações e logs do swarm) 
+  $ cp -r /var/lib/docker/swarm backup (faz o backup da pasta swarm que contem todas as configurações e logs do swarm)
+  (caso ocorra algum problema com o manager, basta copiar esse conteudo para a pasta swarm novamente)
+  (apos a copia, basta subir o swarm novamente adicionando a flag --force-new-cluster)
 ```
 <br />
