@@ -49,3 +49,47 @@ $ docker-machine ssh vm1
   $ docker node rm <ID_NODE_vm3>
 ```
 <br />
+
+**Subindo serviço e Routing Mesh**
+*Git BASH*
+```
+$ docker-machine start vm{1,2,3}
+$ docker-machine ssh vm2
+  $ docker container run -p 8080:3000 -d aluracursos/barbearia
+  $ docker container ls
+
+$ docker-machine ssh vm1
+  $ docker inspect vm2 (pegar informações sobre o vm2)
+  $ docker service create -p 8080:3000 -d aluracursos/barbearia (ira criar um container mas como serviço no swarm)
+  $ docker service ls (exibe o status e replicação do serviço)
+  $ docker service ps <ID _service>
+  http://ip_vm{1,2,3}:8080 (routing mesh redireciona indenpente de onde o container estiver funcionando)
+```
+<br />
+
+**Subindo serviço e Routing Mesh**
+*Git BASH*
+```
+$ docker-machine start vm{1,2,3}
+$ docker-machine ssh vm2
+  $ docker container run -p 8080:3000 -d aluracursos/barbearia
+  $ docker container ls
+
+$ docker-machine ssh vm1
+  $ docker inspect vm2 (pegar informações sobre o vm2)
+  $ docker service create -p 8080:3000 -d aluracursos/barbearia (ira criar um container mas como serviço no swarm)
+  $ docker service ls (exibe o status e replicação do serviço)
+  $ docker service ps <ID _service>
+  http://ip_vm{1,2,3}:8080 (routing mesh redireciona indenpente de onde o container estiver funcionando)
+```
+<br />
+
+**Backup do Swarm**
+*Git BASH*
+```
+$ docker-machine ssh vm1
+  $ sudo su
+  $ ls /var/lib/docker/swarm
+  $ cp -r /var/lib/docker/swarm backup (faz o backup da pasta swarm que contem todas as configurações e logs do swarm) 
+```
+<br />
