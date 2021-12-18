@@ -36,14 +36,14 @@ $ curl -L https://github.com/docker/machine/releases/download/v0.16.2/docker-mac
 
 Instalação Docker Machine Git BASH:<br>
 ```
-base=https://github.com/docker/machine/releases/download/v0.16.0 &&
+$ base=https://github.com/docker/machine/releases/download/v0.16.0 &&
   mkdir -p "$HOME/bin" &&
   curl -L $base/docker-machine-Windows-x86_64.exe > "$HOME/bin/docker-machine.exe" &&
   chmod +x "$HOME/bin/docker-machine.exe"
 
-docker-machine version
+$ docker-machine version
 
-docker-machine version 0.16.0, build 9371605
+$ docker-machine version 0.16.0, build 9371605
 ```
 
 |Tool    |Link|
