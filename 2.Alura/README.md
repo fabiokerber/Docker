@@ -6,6 +6,11 @@
 **Anotações**<br>
     *Docker machine cria máquinas virtuais com o auxilio do VirtualBox já com o docker instalado.*
     *Nunca mais do que 9 ou 10 managers dentro de um cluster.*
+    *Serviços críticos nos managers e não-críticos em workers.*
+    *Redes:*<br>
+      *Bridge - Nós conseguem se comunicar entre si.*
+      *Host - Nó só se comunica com o host onde esta rodando.*
+      *Ingress - Todos os nós pertencentes ao Swarm automaticamente pertencem à esta rede. Comunicação criptografada.*
 <br />
 
 **Docker Machine**<br>
@@ -130,5 +135,154 @@ $ docker-machine ssh vm1
 
 $ docker-machine ssh vm4
 $ docker-machine ssh vm5 (join)
+```
+<br />
+
+**Removendo um Manager**<br>
+*Git BASH*
+```
+$ docker-machine ssh vm2
+  $ docker node demote vm1
+```
+<br />
+
+**Restringindo nós (serviços rodando apenas no Manager)**<br>
+*Git BASH*
+```
+1 -
+$ docker-machine ssh vm1
+  $ docker node ls (availability active = disponivel para suportar serviços)
+  $ docker node update --availability drain vm2 (altera o status para drain, somente da vm2 = não disponível para suportar serviços)
+
+2 - 
+$ docker-machine ssh vm1
+  $ docker service update --constraint-add node.role==worker <ID_serviço> (impõe restrição para que o serviço só rode em workers)
+  $ docker service update --constraint-rm node.role==worker <ID_serviço> (remove restrição)
+```
+<br />
+
+**Replicação de serviço**<br>
+*Git BASH*
+```
+$ docker-machine ssh vm1
+  $ docker service update --replicas 4 <ID_serviço> (aloca quatro copias para os 5 containers)
+  (necessario restringir apenas para workers se necessario)
+  $ docker service scale <ID_serviço>=4 (outra forma de executar o mesmo comando acima...)
+```
+<br />
+
+**Replicação de serviço (modo Global)**<br>
+*Git BASH*
+```
+$ docker-machine ssh vm1
+  $ docker service create -p 8080:3000 --mode global aluracursos/barbearia (instância rodando em todos os nós)
+  (por termos 5 nos, 3 managers e 2 workers,
+```
+<br />
+
+**Rede Ingress**<br>
+*Git BASH*
+```
+$ docker-machine ssh vm1
+  $ docker network ls
+```
+<br />
+
+**Service Discovery**<br>
+*Git BASH*
+```
+$ docker-machine ssh vm1
+  $ docker network create -d my_overlay (serviços utilizando essa rede, irão se comunicar via nome)
+```
+<br />
+
+**Aplicações em Swarm (docker-compose.yml)**<br>
+*Git BASH*
+```
+version: "3"
+services:
+
+  redis:
+    image: redis:alpine
+    networks:
+      - frontend
+    deploy:
+      replicas: 1 (replicas para este container)
+      restart_policy:
+        condition: on-failure (politica de reinicialização - quando houver falha)
+        
+  db:
+    image: postgres:9.4
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - backend
+    deploy:
+      placement:
+        constraints: [node.role == manager] (adição de restrição - sera executado somente nos managers)
+    environment:
+        POSTGRES_HOST_AUTH_METHOD: trust
+
+  vote:
+    image: dockersamples/examplevotingapp_vote:before
+    ports:
+      - 5000:80
+    networks:
+      - frontend
+    depends_on:
+      - redis
+    deploy:
+      replicas: 2 (replicas para este container)
+      restart_policy:
+        condition: on-failure (politica de reinicialização - quando houver falha)
+
+  result:
+    image: dockersamples/examplevotingapp_result:before
+    ports:
+      - 5001:80
+    networks:
+      - backend
+    depends_on:
+      - db
+    deploy:
+      replicas: 1 (replicas para este container)
+      restart_policy:
+        condition: on-failure (politica de reinicialização - quando houver falha)
+
+  worker:
+    image: dockersamples/examplevotingapp_worker
+    networks:
+      - frontend
+      - backend
+    depends_on:
+      - db
+      - redis
+    deploy:
+      mode: replicated (pode ser modo global também)
+      replicas: 1
+      labels: [APP=VOTING] (etiqueta do serviço)
+      restart_policy:
+        condition: on-failure
+      placement:
+        constraints: [node.role == worker] (adição de restrição - sera executado somente nos workers)
+
+  visualizer:
+    image: dockersamples/visualizer:stable
+    ports:
+      - 8080:8080
+    stop_grace_period: 1m30s
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    deploy:
+      placement:
+        constraints: [node.role == manager] (adição de restrição - sera executado somente nos managers)
+
+
+networks:
+  frontend:
+  backend:
+
+volumes:
+  db-data:
 ```
 <br />
