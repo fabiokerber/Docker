@@ -180,14 +180,6 @@ $ docker-machine ssh vm1
 ```
 <br />
 
-**Rede Ingress**<br>
-*Git BASH*
-```
-$ docker-machine ssh vm1
-  $ docker network ls
-```
-<br />
-
 **Service Discovery**<br>
 *Git BASH*
 ```
@@ -277,12 +269,25 @@ services:
       placement:
         constraints: [node.role == manager] (adição de restrição - sera executado somente nos managers)
 
-
 networks:
   frontend:
   backend:
 
 volumes:
   db-data:
+```
+<br />
+
+**Subindo a stack(deploy docker-compose.yml)**<br>
+*Git BASH*
+```
+$ docker-machine ssh vm1
+  $ cat > docker-compose.yml
+  $ ctrl+d
+  $ docker stack deploy --compose-file docker-compose.yml vote (deploy da stack com o nome "vote")
+  $ docker service ls --format "{{.Name}} {{.Replicas}}" (acompanhar...)
+  http://<IP_vm1>:8080
+  http://<IP_vm1>:5000
+  http://<IP_vm1>:5001
 ```
 <br />
