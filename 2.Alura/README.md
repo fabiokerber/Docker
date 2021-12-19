@@ -289,5 +289,6 @@ $ docker-machine ssh vm1
   http://<IP_vm1>:8080
   http://<IP_vm1>:5000
   http://<IP_vm1>:5001
+  $ docker stack rm vote (remove toda stack criada)
 ```
 <br />
