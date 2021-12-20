@@ -1,6 +1,6 @@
 # 2.Alura
 
-### Docker Swarm (ORQUESTRADOR) & Docker Machine
+### Docker Swarm (ORQUESTRADOR DE CONTAINERS) & Docker Machine
 <br />
 
 **Anotações**<br>
