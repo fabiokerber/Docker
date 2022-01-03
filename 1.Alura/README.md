@@ -58,7 +58,7 @@
 > docker inspect <ID>
     Mounts...
 > docker run -it -v "C:\Temp:/var/www" ubuntu (mapeia a pasta C:\Temp para /var/www dentro do container)
-docker run -p 8080:3000 -v "C:\Temp:/var/www" -w "/var/www" node npm start ("inicia" o container na pasta /var/www e executa o comando "node npm start", logo apos a criação do container)
+> docker run -p 8080:3000 -v "C:\Temp:/var/www" -w "/var/www" node npm start ("inicia" o container na pasta /var/www e executa o comando "node npm start", logo apos a criação do container)
 > docker run -p 8080:3000 -v "$(pwd):/var/www" -w "/var/www" node npm start
 ```
 <br />
