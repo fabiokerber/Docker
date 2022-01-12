@@ -1,6 +1,6 @@
 # Docker
 
-|Training     |Tools|
+|Folder     |Tools|
 |-------------|-----------|
 |`1.Alura`| Docker
 |`2.Alura`| Docker Swarm & Docker Machine
